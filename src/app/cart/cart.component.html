@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>What</th>
+        <th>When</th>
+        <th>How much</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let itm of itemsInCart">
+        <td>{{itm.type}} tour</td>
+        <td>{{getTourDates(itm)}}</td>
+        <td>{{itm.price | currency }}</td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Total: {{getSum()}}</th>
+        <th class="text-info">
+          <ng-template [ngIf]="discount">
+            You have a discount, your Order now is {{getDiscount()}}
+          </ng-template>
+        </th>
+      </tr>
+    </thead>
+  </table>
+</div>

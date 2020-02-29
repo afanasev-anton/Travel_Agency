@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="row">
+		<!-- left column (narrow) filter-form and add-form -->
+		<div class="col-md-4">
+			<!--
+			<form class="p-3 my-3 border rounded-lg" [formGroup]="filterForm" (ngSubmit)="filterItems(filterForm.value)">
+				<div class="form-group">
+					<label for="dur">Duration:</label>
+					<input formControlName="dur" type="text" class="form-control" id="dur">
+				</div>
+				<input type="submit" class="btn btn-primary">
+			</form>
+			<form class="p-3 my-3 border rounded-lg" [formGroup]="addForm" (ngSubmit)="addToOffers(addForm.value)">
+				<div class="form-group">
+					<label for="type-ad">Type:</label>
+					<input formControlName="dur" type="text" class="form-control" id="type-ad">
+				</div>
+				<input type="submit" class="btn btn-primary">
+			</form>
+		-->
+		</div>
+		<!-- right column (bright) -->
+		<div class="col-md-8">
+			<!-- ALL OFFERS -->
+			<div class="row mx-0 my-3 border rounded-lg" *ngFor="let itm of offers">
+				<div class="col-4 p-2">
+					<img class="img-fluid rounded-lg" src="{{itm.pic}}" alt="">
+				</div>
+				<div class="col-8 p-2">
+					<h4 class="card-title">
+						{{itm.type}} tour<br>
+						<span class="small">{{itm.destination}}</span>
+					</h4>
+					<h5 class="card-text">
+						{{getTourDates(itm)}}<span class="float-right">{{itm.duration}} day(s)</span><br>
+						<span class="text-info">{{itm.price | currency }}</span>
+					</h5>
+					<p class="card-text">{{itm.description}}.</p>
+					<button class="btn btn-outline-dark" (click)="addToCart(itm)" type="button">
+						Book <i class='fas fa-shopping-cart'></i>
+					</button><span class="badge badge-secondary badge-pill float-right">{{itm.placesFree}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
