@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { products } from '../offers';
 import { CartService } from '../cart.service';
-import { FormBuilder } from '@angular/forms';
+
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-offers',
@@ -10,21 +11,27 @@ import { FormBuilder } from '@angular/forms';
 })
 export class OffersComponent implements OnInit {
 	offers = products;
-  filterForm;
-  addForm;
+  types = [];
 
-  constructor(private cartServ: CartService, private formBldFilter: FormBuilder,private formBldAdd: FormBuilder) {
-    this.filterForm = this.formBldFilter.group({
-      dur:'',
-      price:'',
-      type:''
+  filterForm = this.fb.group({
+      dur:[''],
+      price:[''],
+      type:['']
     });
-    this.filterForm = this.formBldAdd.group({
-      type:'',
-      destination:'',
-      startDate:'',
-      dur:''
+
+  addForm = this.fb.group({
+      type:[''],
+      destination:[''],
+      startDate:[''],
+      dur:['']
     });
+
+  constructor(private cartServ: CartService, private fb: FormBuilder) {
+    for (var i = 0; i < this.offers.length; i++) {
+      if (!this.types.includes(this.offers[i].type)) {
+        this.types.push(this.offers[i].type);
+      }
+    }
 
   }
 
@@ -49,7 +56,64 @@ export class OffersComponent implements OnInit {
     return str;
   }
 
-  filterItems(val){}
+  getDuration(){
+    var max = 0;
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].duration > products[max].duration) {
+        max = i;
+      }
+    }
+    return products[max].duration;
+  }
+  getPrice(){
+    var max = 0;
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].price > products[max].price) {
+        max = i;
+      }
+    }
+    return products[max].price;
+  }
 
-  addToOffers(val){}
+  filterItems(val){
+    var arr = [];
+    var dur = parseInt(val.dur);
+    var price = parseInt(val.price);
+    var type = val.type;
+    
+    for (var i = 0; i < products.length; i++) {
+      if (type == "all") {
+        if ((products[i].duration <= dur)&&(products[i].price <= price)) {
+          arr.push(products[i]);
+          console.log(dur,price,type);
+        }
+      }else {
+        if ((products[i].duration <= dur)&&(products[i].price <= price)&&(products[i].type == type)) {
+          arr.push(products[i]);
+          console.log(dur,price,type);
+        }
+      }
+      
+    }
+    this.offers = arr;    
+  }
+
+  clearFilter(){
+    this.filterForm.reset();
+    this.offers = products;
+  }
+
+  addToOffers(val){
+    
+    this.offers.push(
+      {"destination": val.destination,
+        "description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+        "pic":"../../assets/img/default.jpg",
+        "type": val.type,
+        "startDate": val.startDate,
+        "duration": val.dur,
+        "price":999,
+        "placesFree":1});
+    this.addForm.reset();
+  }
 }

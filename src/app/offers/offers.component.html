@@ -2,22 +2,57 @@
 	<div class="row">
 		<!-- left column (narrow) filter-form and add-form -->
 		<div class="col-md-4">
-			<!--
-			<form class="p-3 my-3 border rounded-lg" [formGroup]="filterForm" (ngSubmit)="filterItems(filterForm.value)">
-				<div class="form-group">
-					<label for="dur">Duration:</label>
-					<input formControlName="dur" type="text" class="form-control" id="dur">
-				</div>
-				<input type="submit" class="btn btn-primary">
-			</form>
-			<form class="p-3 my-3 border rounded-lg" [formGroup]="addForm" (ngSubmit)="addToOffers(addForm.value)">
-				<div class="form-group">
-					<label for="type-ad">Type:</label>
-					<input formControlName="dur" type="text" class="form-control" id="type-ad">
-				</div>
-				<input type="submit" class="btn btn-primary">
-			</form>
-		-->
+			<div class="container-fluid p-2 mx-0 my-3 border rounded-lg">
+				<h5>Filter by</h5>
+				<form [formGroup]="filterForm" (ngSubmit)="filterItems(filterForm.value)">
+					<div class="form-group">
+						<label for="dur">Duration <span class="text-primary"> {{filterForm.value.dur}}</span></label>
+						<input formControlName="dur" type="range" class="custom-range" id="dur" max="{{getDuration()}}" min="1" step="1" value="{{getDuration()}}">
+					</div>
+					<div class="form-group">
+						<label for="pr">Price <span class="text-primary"> {{filterForm.value.price}}</span></label>
+						<input formControlName="price" type="range" class="custom-range" id="pr" max="{{getPrice()}}" min="10" step="10" value="{{getPrice()}}">
+					</div>
+					<div class="form-group">
+						<label for="tp">Type</label>
+						<select formControlName="type" type="range" class="custom-select" id="tp" value="all">
+							<option>all</option>
+							<option *ngFor="let tp of types">{{tp}}</option>
+						</select>
+					</div>
+					
+					<div class="btn-group">
+						<input type="button" class="btn btn-outline-dark" value="Clear Filter" (click)="clearFilter()">
+						<input type="submit" class="btn btn-outline-dark" value="Apply Filter">
+					</div>
+				</form>
+			</div>
+			
+			<div class="container-fluid p-2 mx-0 my-3 border rounded-lg">
+				<h5>Add Tour</h5>
+				<form [formGroup]="addForm" (ngSubmit)="addToOffers(addForm.value)">
+					<div class="form-group">
+						<label for="tp-ad">Type</label>
+						<select formControlName="type" type="range" class="custom-select" id="tp-ad">
+							<option *ngFor="let tp of types">{{tp}}</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="dest-ad">Destination:</label>
+						<input formControlName="destination" type="text" class="form-control" id="dest-ad">
+					</div>
+					<div class="form-group">
+						<label for="date-ad">Begin:</label>
+						<input formControlName="startDate" type="text" class="form-control" id="date-ad">
+					</div>
+					<div class="form-group">
+						<label for="dur-ad">Duration:</label>
+						<input formControlName="dur" type="text" class="form-control" id="dur-ad">
+					</div>
+					<input type="submit" class="btn btn-primary" value="Add Tour">
+				</form>
+			</div>
+			
 		</div>
 		<!-- right column (bright) -->
 		<div class="col-md-8">
